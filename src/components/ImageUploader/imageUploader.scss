@@ -1,0 +1,34 @@
+.container-image-logo {
+  display: flex;
+  justify-content: center;
+  height: 50px;
+}
+
+.visualization-logo {
+  position: absolute;
+  width: 100px;
+  height: 50px;
+}
+
+.background-hovered {
+  display: flex;
+  justify-content: end;
+  position: absolute;
+  width: 100px;
+  height: 50px;
+  z-index: 1;
+  .delete-logo {
+    display: none;
+    height: 30px;
+    width: 30px;
+    z-index: 2;
+  }
+  &:hover {
+    background: rgb(23 22 22 / 64%);
+    .delete-logo {
+      display: block;
+      color: red;
+      cursor: pointer;
+    }
+  }
+}

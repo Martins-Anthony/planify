@@ -1,0 +1,88 @@
+.logoOne {
+  width: 140px;
+  max-width: "100%";
+}
+
+.logoTwo {
+  height: 50px;
+}
+
+.banner-red {
+  background-color: $color-red;
+  min-height: 40px;
+  width: 100%;
+  position: absolute;
+  overflow: hidden;
+}
+
+.day-title {
+  color: white;
+  padding: 10px;
+  text-align: center;
+  background-color: $color-red;
+}
+
+.day-column {
+  color: white;
+  font-style: italic;
+  font-weight: 700;
+  line-height: normal;
+  text-transform: uppercase;
+  flex: 1;
+  border: 1px solid #ddd;
+  position: relative;
+}
+
+.planning-container {
+  display: flex;
+  height: 688px;
+  width: 753px;
+  position: relative;
+  margin: 0 0 0 46px;
+}
+
+.container-overlay-banner {
+  position: relative;
+}
+
+/*
+.container-days {
+  max-width: 753px;
+}
+
+.background-filter {
+  background: rgba(26, 23, 23, 0.23);
+}
+
+
+
+.container-legend {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  height: 100%;
+  width: 80px;
+  z-index: 1;
+}
+
+.container-width {
+  width: 50px;
+}
+
+.line-vertical {
+  width: 12px;
+  height: 100%;
+  background-color: white;
+}
+
+.legend-planning {
+  transform: rotate(90deg);
+  font-size: 18px;
+  color: white;
+  // max-width: 98px;
+  font-style: italic;
+  font-weight: 400;
+  line-height: normal;
+  text-transform: uppercase;
+}
+*/

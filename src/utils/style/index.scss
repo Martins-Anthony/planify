@@ -1,0 +1,36 @@
+$color-red: #da1818;
+
+@import "~bootstrap/scss/bootstrap";
+
+@import "../../components/ImageUploader/imageUploader.scss";
+
+@import "../../containers/Planning/planning.scss";
+
+body {
+  margin: 0;
+  height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
+    "Droid Sans", "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-image: linear-gradient(
+    to right top,
+    #6bd1b3,
+    #4dcdc6,
+    #3ac7d7,
+    #40c0e4,
+    #5bb7ea,
+    #60baef,
+    #64bcf3,
+    #69bff8,
+    #52cffe,
+    #41dfff,
+    #46eefa,
+    #5ffbf1
+  );
+}
+
+span.btn {
+  padding-top: 0;
+  padding-bottom: 0;
+}
