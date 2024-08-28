@@ -28,7 +28,11 @@
     .delete-logo {
       display: block;
       color: red;
-      cursor: pointer;
     }
   }
+}
+
+.delete-logo:hover {
+  color: red;
+  cursor: pointer;
 }

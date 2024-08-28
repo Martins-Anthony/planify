@@ -1,40 +1,74 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Rnd } from 'react-rnd';
+import { useSelector } from 'react-redux';
+import { selectDashboard } from '../../App/store/selectors';
+import { generateTimeOptionsObject } from '../../utils/generateTimeOptions';
 
 const EventEditor = ({ event, onUpdate }) => {
-  const { title, day, time, duration } = event;
+  const {
+    eventLabel,
+    eventDays,
+    eventStartTime,
+    eventDuration,
+    eventSubLabelOne,
+    eventSubLabelTwo,
+  } = event;
+
+  const { labelList } = useSelector(selectDashboard);
+
+  const labelColor = labelList.filter(label => label.name === eventLabel);
+
+  const timeOptionsEvent = (timeEvent, type) => {
+    const timeOptions = generateTimeOptionsObject();
+    const value = timeOptions.filter(
+      eventValue => eventValue.timeNumber === timeEvent
+    );
+    return value[0][type];
+  };
+  const valueEnd =
+    timeOptionsEvent(eventStartTime, 'timeNumber') + eventDuration;
 
   return (
     <Rnd
       default={{
-        x: day * 150,
-        y: time * 60,
-        width: 100,
-        height: duration * 60,
+        x: eventDays,
+        y: 40 + eventStartTime * 60,
+        width: '100%',
+        height: eventDuration * 60,
       }}
       bounds="parent"
-      onDragStop={(e, d) => {
-        const newDay = Math.round(d.x / 120);
-        const newTime = Math.round(d.y / 60);
-        onUpdate(event.id, { day: newDay, time: newTime });
-      }}
       onResizeStop={(e, direction, ref, delta, position) => {
         const newDuration = Math.round(ref.offsetHeight / 60);
-        onUpdate(event.id, { duration: newDuration });
+        onUpdate(event.id, { eventDuration: newDuration });
       }}
     >
       <div
         style={{
-          backgroundColor: 'lightblue',
+          color: labelColor[0].color,
+          backgroundColor: 'white',
+          textAlign: 'center',
+        }}
+      >
+        {timeOptionsEvent(eventStartTime, 'timeString') +
+          ' - ' +
+          timeOptionsEvent(valueEnd, 'timeString')}
+      </div>
+      <div
+        style={{
+          backgroundColor: labelColor[0].color,
           border: '1px solid #ccc',
           padding: '10px',
           boxSizing: 'border-box',
           height: '100%',
           width: '100%',
+          display: 'flex',
+          flexDirection: 'column',
         }}
       >
-        {title}
+        <h5>{eventLabel}</h5>
+        <div>{eventSubLabelOne}</div>
+        <div>{eventSubLabelTwo}</div>
       </div>
     </Rnd>
   );
@@ -42,11 +76,13 @@ const EventEditor = ({ event, onUpdate }) => {
 
 EventEditor.propTypes = {
   event: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    title: PropTypes.string.isRequired,
-    day: PropTypes.number.isRequired,
-    time: PropTypes.number.isRequired,
-    duration: PropTypes.number.isRequired,
+    id: PropTypes.string.isRequired,
+    eventLabel: PropTypes.string.isRequired,
+    eventDays: PropTypes.number.isRequired,
+    eventStartTime: PropTypes.number.isRequired,
+    eventDuration: PropTypes.number.isRequired,
+    eventSubLabelOne: PropTypes.string,
+    eventSubLabelTwo: PropTypes.string,
   }).isRequired,
   onUpdate: PropTypes.func.isRequired,
 };

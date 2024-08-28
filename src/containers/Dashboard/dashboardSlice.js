@@ -12,6 +12,8 @@ const initialState = {
       twoLogo: null,
     },
   },
+  labelList: [],
+  days: ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi'],
 };
 
 const dashboardSlice = createSlice({
@@ -49,9 +51,22 @@ const dashboardSlice = createSlice({
 
       delete target[keys[keys.length - 1]];
     },
+    addLabel(state, action) {
+      state.labelList.push(action.payload);
+    },
+    deleteLabel(state, action) {
+      state.labelList = state.labelList.filter(
+        label => label.id !== action.payload
+      );
+    },
   },
 });
 
-export const { updateNestedFields, setData, resetData, deleteData } =
-  dashboardSlice.actions;
+export const {
+  updateNestedFields,
+  resetData,
+  deleteData,
+  addLabel,
+  deleteLabel,
+} = dashboardSlice.actions;
 export default dashboardSlice.reducer;

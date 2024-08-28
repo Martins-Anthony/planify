@@ -1,20 +1,21 @@
-import React, { useState } from 'react';
+import React from 'react';
 import EventEditor from '../EventEditor';
-import { useSelector } from 'react-redux';
-import { selectDashboard } from '../../App/store/selectors';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectDashboard, selectEvents } from '../../App/store/selectors';
 import Background from '../Background';
+import DraggableResizableBox from '../DraggableResizableBox';
+import Line from '../../components/Line';
+import { updateEvent } from '../EventForm/eventFormSlice';
 
 const Planning = () => {
-  const { titles, images } = useSelector(selectDashboard);
-  const [events, setEvents] = useState([
-    { id: 1, title: 'Cours de Yoga', day: 0, time: 1.5, duration: 1 },
-    { id: 2, title: 'Pilates', day: 1, time: 11, duration: 1 },
-  ]);
+  const { titles, images, labelList, days } = useSelector(selectDashboard);
+  const events = useSelector(selectEvents);
+  const dispatch = useDispatch();
 
   const handleEventUpdate = (id, updates) => {
-    setEvents(
-      events.map(event => (event.id === id ? { ...event, ...updates } : event))
-    );
+    if (updates.eventDays >= 0 && updates.eventStartTime >= 0) {
+      dispatch(updateEvent({ id, updates }));
+    }
   };
 
   return (
@@ -45,23 +46,52 @@ const Planning = () => {
       </header>
       <div className="position-relative">
         <div className="banner-red"></div>
-        <div className="planning-container">
-          {['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi'].map(
-            (dayName, index) => (
-              <div key={index} className="day-column">
-                <div className="day-title">{dayName}</div>
-                {events
-                  .filter(event => event.day === index)
-                  .map(event => (
-                    <EventEditor
-                      key={event.id}
-                      event={event}
-                      onUpdate={handleEventUpdate}
-                    />
-                  ))}
-              </div>
-            )
-          )}
+        <div className="planning-container border w-100">
+          {days.map((dayName, index) => (
+            <div key={index} className="day-column">
+              <div className="day-title">{dayName}</div>
+              {events
+                .filter(event => event.eventDays === index)
+                .map(event => (
+                  <EventEditor
+                    key={event.id}
+                    event={event}
+                    onUpdate={handleEventUpdate}
+                    onClick={e => e.preventDefault()}
+                  />
+                ))}
+            </div>
+          ))}
+          <div className="col-4 h-100 text-white container">
+            <DraggableResizableBox
+              body={
+                <div className="d-flex flex-column">
+                  <span className="text-uppercase ps-3 fst-italic">
+                    {titles.groupLabelTitle}
+                  </span>{' '}
+                  <Line />
+                </div>
+              }
+              defaultX={100}
+              defaultY={65}
+              defaultWidth={215}
+              defaultHeight={50}
+            />
+            <DraggableResizableBox
+              body={labelList.map((label, index) => (
+                <div
+                  key={index}
+                  style={{ background: label.color }}
+                  className="p-1 col-auto w-100 text-white text-truncate mb-3 ps-3 text-uppercase fst-italic fw-bold"
+                >
+                  {label.name}
+                </div>
+              ))}
+              defaultX={100}
+              defaultY={115}
+              defaultWidth={145}
+            />
+          </div>
         </div>
       </div>
     </div>
